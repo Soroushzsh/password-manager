@@ -2,8 +2,8 @@ import sqlite3
 
 
 class Database:
-    def __init__(self, db_name):
-        self.db_name = db_name
+    def __init__(self, db_name='sqlite.db'):
+        self.db_name = db_name 
         self.connection = sqlite3.connect(db_name)
         self.cursor = self.connection.cursor()
         self.__create_table()
@@ -69,6 +69,30 @@ class Database:
         '''
         self.cursor.execute(select_query, (service_id,))
         return self.cursor.fetchone()
+
+    def count(self, **kwargs):
+        count_query = '''
+            SELECT COUNT(*)
+            FROM services
+            WHERE %s
+        '''
+
+        counter = 0
+        filter_query = ''
+        for key in kwargs.keys():
+            try:
+                value = int(kwargs.get(key))
+            except ValueError:
+                value = f"'{kwargs.get(key)}'"
+            
+            filter_query += "%s = %s" % (key, value)
+            counter += 1
+            if counter < len(kwargs.keys()):
+                filter_query += ' and '
+
+        count_query = count_query % (filter_query, )
+        self.cursor.execute(count_query)
+        return self.cursor.fetchone()[0]
 
     def __del__(self):
         self.connection.close()

@@ -1,4 +1,4 @@
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 
 
 class FernetEncryptor:
@@ -13,5 +13,9 @@ class FernetEncryptor:
         return ciphertext
 
     def decrypt(self, ciphertext):
-        decrypted_data = self.cipher_suite.decrypt(ciphertext)
+        try:
+            decrypted_data = self.cipher_suite.decrypt(ciphertext)
+        except InvalidToken:
+            return None
+        
         return decrypted_data.decode()
