@@ -21,7 +21,7 @@ def main(db, key):
         else:
             break
     
-    # fixme: open closed principle
+    # todo: how can I implement this using open-closed principle?
     if op == 1:
         generate_new_password(db, key)
     elif op == 2:

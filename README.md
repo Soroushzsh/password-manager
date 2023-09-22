@@ -2,7 +2,6 @@
 This is a simple password manager developed using Python
 
 ## TODO
-* print '*' when getting secret in command line -> getpass module
 * test coverage 100%
 * sync with spm
 * update username or password
