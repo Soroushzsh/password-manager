@@ -31,7 +31,7 @@ def copy_password(password):
     ans = input('Copy password to the clipboard?(y/n) ')
     while not yes_or_no_validator(ans):
         ans = input("Please enter 'y' for 'yes' and 'n' for 'no': ")
-    if ans == 'y':
+    if ans.lower() in ('y', 'yes', 'yup'):
         pyperclip.copy(password)
 
 
@@ -48,7 +48,7 @@ def generate_new_password(db, key):
         ans = input('Do you want to save this password for new account?(y/n) ')
         while not yes_or_no_validator(ans):
             ans = input("Please enter 'y' for 'yes' and 'n' for 'no': ")
-        if ans == 'y':
+        if ans.lower() in ('y', 'yes', 'yup'):
             add_new_account(db, key, password=new_password)
 
 
@@ -78,7 +78,7 @@ def get_account_address(db):
         while not yes_or_no_validator(ans):
             ans = input("Please enter 'y' for 'yes' and 'n' for 'no': ")
 
-        if ans == 'y':
+        if ans.lower() in ('y', 'yes', 'yup'):
             return account_address
 
 
@@ -94,7 +94,7 @@ def get_username(db, service_name):
         while not yes_or_no_validator(ans):
             ans = input("Please enter 'y' for 'yes' and 'n' for 'no': ")
 
-        if ans == 'y':
+        if ans.lower() in ('y', 'yes', 'yup'):
             return username
 
 
@@ -138,7 +138,7 @@ def delete_account(db, account_id):
     while not yes_or_no_validator(ans):
         ans = input("Please enter 'y' for 'yes' and 'n' for 'no': ")
 
-    if ans == 'y':
+    if ans.lower() in ('y', 'yes', 'yup'):
         db.delete(account_id)
         print('Account deleted!')
 
