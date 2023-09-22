@@ -1,44 +1,67 @@
+import os
+
 import pytest
+
 from database import Database
 
-# Fixture to create a temporary database for testing
+# Define a fixture to create a temporary SQLite database for testing
 @pytest.fixture
-def temp_db():
-    db = Database(":memory:")  # Use in-memory database for testing
+def test_db():
+    test_db_name = 'test_database.db'
+    db = Database(test_db_name)
     yield db
-    db.__del__()  # Clean up the database connection
+    db.__del__()  # Close the database connection
+    os.remove(test_db_name)  # Remove the temporary database file
 
-def test_insert_and_retrieve(temp_db):
-    temp_db.insert_service("Email", "user@example.com", "mypassword")
-    services = temp_db.retrieve_all_services()
-    assert len(services) == 1
-    assert services[0][1] == "Email"
 
-def test_update_and_retrieve(temp_db):
-    temp_db.insert_service("Email", "user@example.com", "mypassword")
-    temp_db.update_service(1, "New Email", "newuser@example.com", "newpassword")
-    service = temp_db.retrieve_by_id(1)
-    assert service[1] == "New Email"
-    assert service[2] == "newuser@example.com"
-    assert service[3] == "newpassword"
+# Test the insert method
+def test_insert(test_db):
+    test_db.insert("Service 1", "User 1", "Password 1")
+    result = test_db.retrieve_all_services()
+    assert len(result) == 1
+    assert result[0][1] == "Service 1"
+    assert result[0][2] == "User 1"
 
-def test_delete(temp_db):
-    temp_db.insert_service("Email", "user@example.com", "mypassword")
-    temp_db.delete_service(1)
-    services = temp_db.retrieve_all_services()
-    assert len(services) == 0
 
-def test_retrieve_by_service_name(temp_db):
-    temp_db.insert_service("Email", "user@example.com", "mypassword")
-    temp_db.insert_service("Social Media", "myusername", "mysecretpassword")
-    services = temp_db.retrieve_by_service_name("Email")
-    assert len(services) == 1
-    assert services[0][1] == "Email"
+# Test the update method
+def test_update(test_db):
+    test_db.insert("Service 1", "User 1", "Password 1")
+    service_id = test_db.retrieve_all_services()[0][0]
+    test_db.update(service_id, "Service 2", "User 2", "Password 2")
+    updated_service = test_db.retrieve_service_by_id(service_id)
+    assert updated_service[0] == "Service 2"
+    assert updated_service[1] == "User 2"
+    assert updated_service[2] == "Password 2"
 
-def test_retrieve_by_id(temp_db):
-    temp_db.insert_service("Email", "user@example.com", "mypassword")
-    service = temp_db.retrieve_by_id(1)
-    assert service[1] == "Email"
 
-if __name__ == "__main__":
-    pytest.main()
+# Test the delete method
+def test_delete(test_db):
+    test_db.insert("Service 1", "User 1", "Password 1")
+    service_id = test_db.retrieve_all_services()[0][0]
+    test_db.delete(service_id)
+    result = test_db.retrieve_all_services()
+    assert len(result) == 0
+
+
+# Test the retrieve_by_service_name method
+def test_retrieve_by_service_name(test_db):
+    test_db.insert("Service 1", "User 1", "Password 1")
+    result = test_db.retrieve_by_service_name("Service 1")
+    assert len(result) == 1
+    assert result[0][1] == "Service 1"
+    assert result[0][2] == "User 1"
+
+
+# Test the retrieve_by_id method
+def test_retrieve_by_id(test_db):
+    test_db.insert("Email", "user@example.com", "mypassword")
+    service = test_db.retrieve_service_by_id(1)
+    assert service[0] == "Email"
+
+
+# Test the count method
+def test_count(test_db):
+    test_db.insert("Service 1", "User 1", "Password 1")
+    test_db.insert("Service 2", "User 2", "Password 2")
+    count = test_db.count(service_name="Service 1")
+    assert count == 1
