@@ -5,7 +5,7 @@ def is_int(x):
         return False
 
 def yes_or_no_validator(x):
-    if x in ('y', 'n'):
+    if x.lower() in ('y', 'n', 'no', 'yes', 'yup', 'nope'):
         return True
     return False
     
