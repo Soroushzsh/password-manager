@@ -5,7 +5,7 @@ This is a simple password manager developed using Python
 xclip must be installed on your system
 
 ## TODO
-* test coverage 100%
+* implement tests for functions.py
 * sync with spm
 * update username or password
 * copy password to the clipboard after retrieve
