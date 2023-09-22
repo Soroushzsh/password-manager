@@ -32,7 +32,7 @@ class Database:
         update_query = '''
             UPDATE services
             SET service_name = ?, username = ?, password = ?
-            WHERE service_id = ?
+            WHERE id = ?
         '''
         self.cursor.execute(update_query, (service_name, username, password, service_id))
         self.connection.commit()
