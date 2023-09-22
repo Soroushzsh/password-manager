@@ -1,7 +1,7 @@
-from functions import (generate_new_password, add_new_account, retrieve_account_info_by_id, retrieve_account_info_by_name,
+from utils.functions import (generate_new_password, add_new_account, retrieve_account_info_by_id, retrieve_account_info_by_name,
                        show_all_accounts, get_encryption_key)
-from custom_validators import yes_or_no_validator
-from database import Database
+from utils.custom_validators import yes_or_no_validator
+from utils.database import Database
 
 
 def main(db, key):

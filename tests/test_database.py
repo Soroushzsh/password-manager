@@ -2,7 +2,8 @@ import os
 
 import pytest
 
-from database import Database
+from utils.database import Database
+
 
 # Define a fixture to create a temporary SQLite database for testing
 @pytest.fixture

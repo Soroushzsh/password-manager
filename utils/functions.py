@@ -5,9 +5,9 @@ from getpass import getpass
 from prettytable import PrettyTable
 import pyperclip
 
-from custom_validators import is_int, yes_or_no_validator
-from password_manager import PasswordManager
-from custom_encryption import FernetEncryptor
+from .custom_validators import is_int, yes_or_no_validator
+from .password_manager import PasswordManager
+from .custom_encryption import FernetEncryptor
 
 
 def display(header, data):
