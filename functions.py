@@ -1,5 +1,6 @@
 import hashlib
 import base64
+from getpass import getpass
 
 from prettytable import PrettyTable
 import pyperclip
@@ -19,7 +20,7 @@ def display(header, data):
 
 
 def get_encryption_key():
-    key = input('Enter encryption key: ')
+    key = getpass('Enter encryption key: ')
     hash_object = hashlib.sha256(key.encode())
     hash_value = hash_object.digest()
     key = base64.b64encode(hash_value)
