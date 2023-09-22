@@ -1,6 +1,9 @@
 # Python Password Manager
 This is a simple password manager developed using Python
 
+## Requirements
+xclip must be installed on your system
+
 ## TODO
 * test coverage 100%
 * sync with spm
